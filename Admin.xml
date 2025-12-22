@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Adminparalella" thread-count="2" parallel="tests">
+  <test  name="AdminChrome">
+  <parameter name="xmlBrowserName" value="Chrome"></parameter>
+    <classes>
+      <class name="com.qa.orangehrm.testcases.AdminPageTest"/>
+    </classes>
+  </test> <!-- Test -->
+  <test  name="AdminFirefox">
+  <parameter name="xmlBrowserName" value="Firefox"></parameter>
+    <classes>
+      <class name="com.qa.orangehrm.testcases.AdminPageTest"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
