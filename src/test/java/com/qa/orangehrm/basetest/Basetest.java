@@ -39,7 +39,7 @@ public class Basetest {
 
 	public void launchBrowser(String xmlBrowserName) throws IOException {
 	 dm = new DriverManager();
-	 pop = dm.initpropert();
+	 pop = dm.initProperty();
 	 if(xmlBrowserName!=null) {
 	 pop.setProperty("browsername", xmlBrowserName);
   }

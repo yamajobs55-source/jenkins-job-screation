@@ -16,9 +16,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+//import com.qa.orangehrm.appconstants.I_ApplicationConstantValues;
 import com.qa.orangehrm.apperromgg.ApplicationErrorMsg;
 import com.qa.orangehrm.constantvalues.ApplicationConstants;
-import com.qa.orangehrm.exception.ElementExceptions;
+//import com.qa.orangehrm.diverfactory.BrowserOptions;
 import com.qa.orangehrm.exception.FrameworkExceptions;
 
 public class DriverManager {
@@ -67,21 +68,59 @@ public class DriverManager {
 	public static WebDriver getDriver() {
 		return ltDriver.get();
 	}
+
+	public Properties initProperty() {
+		try {
+			FileInputStream fis = new FileInputStream(ApplicationConstants.PROPERTYFILE);
+			prop = new Properties();
+			prop.load(fis);
+			bopts = new BrowserOptions(prop);
+			log.info("From class [DriverManager] & method [initProperty] The porperty file  has been initialized with proper location");
+			}
+		catch (Exception e) {
+			log.info("From class [DriverManager] & method [initProperty] The porperty file  is not initialized");
+			throw new FrameworkExceptions("===[DriverManager] - Could not initiate the property file / incorrect file path===");
+		}
+		log.info("From class [DriverManager] & method [initProperty] The porperty file  is initialized and returned");
+		return prop;		
+	}
 	
 
-public Properties initpropert() throws IOException{
-	try {
-FileInputStream fis=new FileInputStream(ApplicationConstants.PROPERTYFILE);
-prop = new Properties();
-prop.load(fis);
-bopts = new BrowserOptions(prop);
-	}
-	catch(Exception e) {
-		throw new ElementExceptions("== [DriverManager]== - Property FIle Not found");
-		
-	}
- return prop;
-}
+//public Properties initpropert() throws IOException{
+//	prop = new Properties();
+//	FileInputStream fis = null;
+//	String envName = System.getProperty("env").trim().toLowerCase();
+//    log.info("The envirom=nment name is : " + envName);
+//	try {
+//		if (envName == null) {
+//		log.warn("The envirom=nment name is : " + envName);
+//       fis = new FileInputStream("./src/test/resources/ConfigurationData/ConfigData.qa.properties");
+//       }
+//	else {
+//		switch (envName) {
+//		 case "qa":fis = new FileInputStream("./src/test/resources/ConfigurtionData/ConfigData.qa.properties");
+//				break;
+//			case "dev":fis = new FileInputStream("./src/test/resources/ConfigurtionData/ConfigData.Dev.properties");
+//				break;
+//			case "staging":fis = new FileInputStream("./src/test/resources/ConfigurtionData/ConfigData.staging.properties");
+//				break;
+//			default:
+//                 log.warn("The specified environment name is not valid");
+//				throw new FrameworkExceptions("===Invalid environment");
+//			}
+//		}
+//	} catch (Exception e) {
+//	   e.getStackTrace();
+//}
+//
+//	try {
+//		prop.load(fis);
+//		bopts = new BrowserOptions(prop);
+//	} catch (IOException e) {
+//		e.printStackTrace();
+//	}
+// return prop;
+//}
 
 public static File captureScreenshotFile() {
 	
@@ -89,6 +128,72 @@ public static File captureScreenshotFile() {
 	TakesScreenshot ts=(TakesScreenshot)getDriver();
 	return ts.getScreenshotAs(OutputType.FILE);
 }
+
+//public Properties initProperty(){
+//
+//	prop = new Properties();
+//
+//	FileInputStream fis = null;
+//
+//	String envName=System.getProperty("env").trim().toLowerCase();
+//
+//	log.info("The environment name is:"+envName);
+//
+//	try {
+//
+//		if(envName==null) {
+//
+//			log.warn("the environment name is null :"+envName);
+//
+//			fis = new FileInputStream("./src/test/resources/ConfigurationData/ConfigData.qa.properties");
+//
+//		}
+//
+//		else {
+//
+//			switch(envName) {
+//
+//			case "qa":fis =new FileInputStream("./src/test/resources/ConfigurationData/ConfigData.qa.properties");
+//
+//			break;
+//
+//			case "dev":fis =new FileInputStream("./src/test/resources/ConfigurationData/ConfigData.dev.properties");
+//
+//			break;
+//
+//			case "staging":fis =new FileInputStream("./src/test/resources/ConfigurationData/ConfigData.staging.properties");
+//
+//			break;
+//
+//			default:log.warn("The specified environment name is not valid");
+//
+//					throw new FrameworkExceptions("===Invalid environment");
+//
+//			}
+//
+//		}
+//
+//	}catch(Exception e) {
+//
+//		e.getStackTrace();
+//
+//	}
+//
+//	try {
+//
+//		prop.load(fis);
+//
+//		bopts= new BrowserOptions (prop);	
+//
+//	}catch(IOException e) {
+//
+//		e.printStackTrace();
+//
+//	}
+//
+//	return prop;
+//
+//}
 
 }
 

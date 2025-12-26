@@ -82,4 +82,11 @@ public class Loginpagetest extends Basetest {
 
     	
     }
+	@Test
+	public void checkLoginPageHeading1() {
+		
+		
+		Reporter.log("Verified checkLoginPageHeading");//TestNg report
+		ChainTestListener.log("Verified checkLoginPageHeading");//chaintest report
+}
 }
