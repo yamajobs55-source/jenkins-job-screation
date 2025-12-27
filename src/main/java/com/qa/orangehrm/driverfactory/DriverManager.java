@@ -3,6 +3,7 @@ package com.qa.orangehrm.driverfactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 //import com.qa.orangehrm.appconstants.I_ApplicationConstantValues;
@@ -33,28 +35,48 @@ public class DriverManager {
 
 	public WebDriver browserInit(String browserName) 
 	{
+		boolean remoteExecution = Boolean.parseBoolean(prop.getProperty("remote"));
 		log.info("From class [Drivermanager] & method [browserInit] The initialized browser is"+browserName);
 		switch(browserName.toLowerCase().trim()){
 		case"chrome":
-//			driver = new ChromeDriver();
-			ltDriver.set(new ChromeDriver(bopts.getChromeOptions()));
+		//	driver = new ChromeDriver();
+			if(remoteExecution) {
+				init_remoteDriver("chrome");
+			}else {
+				ltDriver.set(new ChromeDriver(bopts.getChromeOptions()));
+			}	
 		break;
 		case"firefox":
 //			driver = new FirefoxDriver();
+			if(remoteExecution) {
+				init_remoteDriver("firefox");
+			}else {
 			ltDriver.set(new FirefoxDriver(bopts.getFirefoxOptions()));
+			}
 		break;
 		case"edge":
 //			driver = new EdgeDriver();
+			if(remoteExecution) {
+				init_remoteDriver("edge");
+			}else {
 			ltDriver.set(new EdgeDriver(bopts.getEdgeOptions()));
-			
+			}
 		break;
 		case"ie":
 	//		driver = new InternetExplorerDriver();
+			if(remoteExecution) {
+				init_remoteDriver("ie");
+			}else {
 			ltDriver.set(new InternetExplorerDriver(bopts.getIoOptions()));
+			}
         break;
 		case"safari":
 //			driver = new SafariDriver();
+			if(remoteExecution) {
+				init_remoteDriver("safari");
+			}else {
  		ltDriver.set(new SafariDriver());
+			}
 
 		default:System.out.println(ApplicationErrorMsg.INVALID_BROWSER_MSG);
 
@@ -83,6 +105,26 @@ public class DriverManager {
 		}
 		log.info("From class [DriverManager] & method [initProperty] The porperty file  is initialized and returned");
 		return prop;		
+	}
+	
+	
+	private void init_remoteDriver(String browsername ) {
+		try {
+			switch (browsername) {
+			case "chrome" :ltDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")),bopts.getChromeOptions()));
+			break;
+			case "firefox" :ltDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")),bopts.getFirefoxOptions()));
+			break;
+			case "edge" :ltDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")),bopts.getEdgeOptions()));
+			break;
+			default:log.error("Please supply the browser name for selenium grid");
+			break;
+			}
+		}
+		catch(Exception e) {
+			
+		}
+		
 	}
 	
 
